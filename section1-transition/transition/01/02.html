@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CSS Transition</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background: coral;
+      transition:
+          transform 1s cubic-bezier(0.44,-0.46, 0.67, 1.57)
+          /*,background 2s 1s linear;*/
+    }
+
+    .box-action {
+      transform: translateX(200px);
+      background: blue;
+    }
+
+    /*.box:hover {*/
+    /*  transform: scale(2);*/
+    /*}*/
+  </style>
+</head>
+<body>
+<div class="box"></div>
+<p class="message"></p>
+<script>
+  const box = document.querySelector('.box');
+  const message = document.querySelector('.message');
+
+  let isTransitionRunning = false;
+
+  box.addEventListener('click', () => {
+    if (!isTransitionRunning) {
+      box.classList.toggle('box-action');
+    }
+    setTimeout(() => {
+      box.remove();
+    }, 500);
+  });
+  box.addEventListener('transitionstart', e => {
+    console.log(`${e.propertyName} START`);
+    message.innerText = 'START';
+    isTransitionRunning = true;
+  });
+  box.addEventListener('transitionend', e => {
+    console.log(`${e.propertyName} END`);
+    message.innerText = 'END';
+    isTransitionRunning = false;
+  });
+  box.addEventListener('transitionrun', e => {
+    console.log(`${e.propertyName} RUN`);
+    message.innerText = 'RUN';
+  });
+  box.addEventListener('transitioncancel', e => {
+    console.log(`${e.propertyName} CANCEL`);
+    message.innerText = 'CANCEL';
+  });
+</script>
+</body>
+</html>

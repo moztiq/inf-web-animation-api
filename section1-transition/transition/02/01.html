@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SVG Transition</title>
+  <style>
+    .hand {
+      position: absolute;
+      left: 400px;
+      top: 90px;
+      width: 200px;
+    }
+    .key {
+      position: absolute;
+      left: 100px;
+      top: 50px;
+      width: 150px;
+      transition: .5s;
+    }
+  </style>
+</head>
+<body>
+<img class="hand" src="images/hand.svg" alt="hand"/>
+<object class="key" data="images/key.svg" type="image/svg+xml"></object>
+<script>
+  const hand = document.querySelector('.hand');
+  const key = document.querySelector('.key');
+  let isKeyInHand = false;
+
+  hand.addEventListener('click', e => {
+    if (isKeyInHand) {
+      key.style.transform = `scale(1) translate(0, 0)`;
+    } else {
+      const rect = hand.getBoundingClientRect();
+      key.style.transform = `scale(0.5) translate(${rect.left + 150}px, ${rect.top - 50}px`;
+    }
+  });
+
+  key.addEventListener('transitionend', e => {
+    isKeyInHand = !isKeyInHand;
+  });
+</script>
+</body>
+</html>
